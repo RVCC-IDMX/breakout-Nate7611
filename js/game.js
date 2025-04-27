@@ -26,33 +26,39 @@ export class Game {
     this.ball = null;
     this.bricks = [];
 
+    // Game systems are provided for you
     this.ui = new UI(this);
     this.collisionManager = new CollisionManager(this);
     this.input = new InputHandler(this);
 
     this.init();
 
+    // Set up canvas scale (provided for you)
     this.canvasScale = {
       x: this.canvas.width / this.canvas.offsetWidth,
       y: this.canvas.height / this.canvas.offsetHeight
     };
 
+    // Add window resize listener (provided for you)
     window.addEventListener('resize', () => {
       this.updateCanvasScale();
     });
   }
 
+  // Initialize the game
   init() {
     this.createEntities();
     this.setupBricks();
     this.ui.showScreen(GAME_STATES.START);
   }
 
+  // Create game entities
   createEntities() {
     this.paddle = new Paddle(this);
     this.ball = new Ball(this);
   }
 
+  // Update canvas scale calculation (provided for you)
   updateCanvasScale() {
     this.canvasScale = {
       x: this.canvas.width / this.canvas.offsetWidth,
@@ -60,6 +66,7 @@ export class Game {
     };
   }
 
+  // Set up brick layout
   setupBricks() {
     this.bricks = [];
     for (let row = 0; row < BRICK_CONFIG.ROWS; row++) {
@@ -72,6 +79,7 @@ export class Game {
     }
   }
 
+  // Start the game
   startGame() {
     this.gameState = GAME_STATES.PLAYING;
     this.ui.showScreen(GAME_STATES.PLAYING);
@@ -79,6 +87,7 @@ export class Game {
     this.gameLoop();
   }
 
+  // Restart the game
   restartGame() {
     this.score = 0;
     this.lives = DEFAULTS.LIVES;
@@ -91,6 +100,7 @@ export class Game {
     this.gameLoop();
   }
 
+  // Main game loop
   gameLoop() {
     if (this.gameState !== GAME_STATES.PLAYING) return;
 
@@ -122,6 +132,7 @@ export class Game {
     requestAnimationFrame(() => this.gameLoop());
   }
 
+  // Handle ball out of bounds
   ballLost() {
     this.lives--;
     this.ui.updateStats();
@@ -132,21 +143,25 @@ export class Game {
     }
   }
 
+  // Handle game over
   gameOver() {
     this.gameState = GAME_STATES.GAMEOVER;
     this.ui.showScreen(GAME_STATES.GAMEOVER);
   }
 
+  // Handle win
   win() {
     this.gameState = GAME_STATES.WIN;
     this.ui.showScreen(GAME_STATES.WIN);
   }
 
+  // Add to score
   addScore(points) {
     this.score += points;
     this.ui.updateStats();
   }
 
+  // Debug message helper (provided for you)
   debug(message) {
     this.debugMessage = message;
   }

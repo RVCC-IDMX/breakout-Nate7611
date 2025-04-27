@@ -8,6 +8,7 @@ export class CollisionManager {
     this.game = game;
   }
 
+  // Check for all collisions in the game
   checkCollisions() {
     if (!this.game.ball || !this.game.paddle) {
       return;
@@ -16,6 +17,7 @@ export class CollisionManager {
     this.checkBrickCollisions();
   }
 
+  // Check if ball collides with paddle
   checkPaddleCollision() {
     const ball = this.game.ball;
     const paddle = this.game.paddle;
@@ -33,6 +35,7 @@ export class CollisionManager {
     }
   }
 
+  // Check if ball collides with any bricks
   checkBrickCollisions() {
     const ball = this.game.ball;
     for (const brick of this.game.bricks) {
@@ -45,6 +48,7 @@ export class CollisionManager {
     }
   }
 
+  // Calculate how the ball should bounce after hitting a brick
   calculateBounceDirection(ball, brick) {
     const overlapLeft = ball.x + ball.size - brick.x;
     const overlapRight = brick.x + brick.width - (ball.x - ball.size);
